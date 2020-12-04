@@ -34,6 +34,12 @@ class User extends Model {
   tokens () {
     return this.hasMany('App/Models/Token')
   }
+  conteudo(){
+    return this.belongsToMany('App/Models/Conteudo')
+  }
+  static get hidden(){
+    return["password"]
+  }
 }
 
 module.exports = User

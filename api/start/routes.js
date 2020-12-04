@@ -19,3 +19,7 @@ const Route = use('Route')
 Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
+Route.post('/register', 'AuthController.register');
+Route.post('/authenticate', 'AuthController.authenticate');
+Route.resource('conteudo', 'ConteudoController')
+Route.resource('imagen', 'ImagenController')

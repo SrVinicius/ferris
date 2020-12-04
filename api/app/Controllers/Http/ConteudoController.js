@@ -3,7 +3,7 @@
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
-
+const Conteudo = use("App/Models/Conteudo")
 /**
  * Resourceful controller for interacting with conteudos
  */
@@ -18,20 +18,9 @@ class ConteudoController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    const gelol = await Conteudo.all()
+    return gelol
   }
-
-  /**
-   * Render a form to be used for creating a new conteudo.
-   * GET conteudos/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
-
   /**
    * Create/save a new conteudo.
    * POST conteudos
@@ -41,6 +30,9 @@ class ConteudoController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    const dado = request.only(["idconteudo","titulo","desc","iduser","idIMG"])
+    const gelol = await Conteudo.create(dado)
+    return gelol
   }
 
   /**
@@ -53,20 +45,9 @@ class ConteudoController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    const gelol = await Conteudo.findOrFail(params.id)
+    return gelol
   }
-
-  /**
-   * Render a form to update an existing conteudo.
-   * GET conteudos/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
-
   /**
    * Update conteudo details.
    * PUT or PATCH conteudos/:id
@@ -76,6 +57,15 @@ class ConteudoController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    const gelol = await Conteudo.findOrFail(params.id)
+    const {idconteudo,titulo,desc,iduser,idIMG} = request.only(["idconteudo","titulo","desc","iduser","idIMG"])
+    gelol.idconteudo = idconteudo
+    gelol.titulo=titulo
+    gelol.desc=desc 
+    gelol.iduser=iduser
+    gelol.idIMG=idIMG
+    await gelol.save()
+    return gelol
   }
 
   /**
@@ -87,6 +77,8 @@ class ConteudoController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    const gelol = await Conteudo.findOrFail(params.id)
+    await gelol.delete()
   }
 }
 
